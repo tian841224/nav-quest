@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>已兌換</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#FFFFFF}a:hover{color:#E3EFEA}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 28px 24px 32px; background: #0B6B4F; color: #FFFFFF; font-family: 'Noto Sans TC', sans-serif; display: flex; flex-direction: column; gap: 28px">
+  <div style="display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <div style="font-size: 15px; font-weight: 700; letter-spacing: 0.08em">導航任務</div>
+      <div style="font-size: 13px">步驟 3／3</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+      <div style="height: 4px; border-radius: 2px; background: #FFFFFF"></div>
+      <div style="height: 4px; border-radius: 2px; background: #FFFFFF"></div>
+      <div style="height: 4px; border-radius: 2px; background: #FFFFFF"></div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 28px; text-align: center">
+    <div style="width: 120px; height: 120px; border-radius: 60px; background: #FFFFFF; display: flex; align-items: center; justify-content: center">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#0B6B4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <h1 style="margin: 0; font-size: 40px; line-height: 1.2; font-weight: 900">任務成功</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6">已在 [店名] 完成兌換</p>
+    </div>
+    <div style="align-self: stretch; padding: 20px; border-radius: 18px; background: #FFFFFF; color: #14201B; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 14px">
+        <div style="color: #4B5A53">兌換時間</div>
+        <div style="font-weight: 700">[核銷日期時間]</div>
+      </div>
+      <div style="height: 1px; background: #D5DCD8"></div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 13px; color: #4B5A53">現在時間</div>
+        <div style="font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: 0.02em">{{now}}</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin: 0; font-size: 13px; line-height: 1.6; text-align: center">此畫面的時間會持續跳動。每支手機限兌換一次。</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+componentDidMount() {
+this.timer = setInterval(() => this.forceUpdate(), 1000);
+}
+componentWillUnmount() {
+clearInterval(this.timer);
+}
+renderVals() {
+const d = new Date();
+const p = (n) => String(n).padStart(2, '0');
+return { now: p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) };
+}
+}
+</script>
+</body>
+</html>

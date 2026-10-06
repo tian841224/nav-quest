@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>導航任務</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main class="screen" id="app">
+
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">導航任務</div>
+      <div class="step-label" id="step-label"></div>
+    </div>
+    <div class="progress" id="progress" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- 1 確認位置 -->
+  <section class="view" data-view="start" hidden>
+    <div class="view-body">
+      <div class="badge badge-primary">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+      </div>
+      <div class="stack-12">
+        <h1 class="title-xl">從這裡出發，<br>到現場領取禮物</h1>
+        <p class="lead">先確認你在活動範圍內，再導航前往 <span data-dest-name></span>，抵達後出示畫面即可兌獎。</p>
+      </div>
+      <ol class="steps card">
+        <li class="steps-item is-current"><span class="steps-dot">1</span>確認位置</li>
+        <li class="steps-item"><span class="steps-dot">2</span>導航前往</li>
+        <li class="steps-item"><span class="steps-dot">3</span>現場兌獎</li>
+      </ol>
+      <div class="note card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.500v.5"></path></svg>
+        <p>需要在 <span data-dest-name></span> 方圓 <span data-radius></span> 公里內才能開始。位置只在你的手機上用來計算距離，不會上傳或儲存。</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="locate-btn">確認我的位置</button>
+      <p class="hint" id="locate-hint">按下後請在瀏覽器詢問時選擇「允許」。</p>
+    </div>
+  </section>
+
+  <!-- 1b 不在範圍／定位失敗 -->
+  <section class="view" data-view="blocked" hidden>
+    <div class="view-body">
+      <div class="badge badge-warn">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><path d="M9.500 7.500l5 5M14.500 7.500l-5 5"></path></svg>
+      </div>
+      <div class="stack-12">
+        <h1 class="title-lg" id="blocked-title"></h1>
+        <p class="lead" id="blocked-message"></p>
+      </div>
+      <div class="card place-card">
+        <div class="place-label">活動地點</div>
+        <div class="place-name" data-dest-name></div>
+        <div class="place-detail" id="blocked-detail"></div>
+      </div>
+      <p class="hint-left" id="blocked-tip"></p>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn-secondary" id="retry-btn">重新確認位置</button>
+    </div>
+  </section>
+
+  <!-- 2 任務進行中 -->
+  <section class="view view-task" data-view="task" hidden>
+    <div class="stack-8">
+      <div class="status-ok">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"></path></svg>
+        已確認位置，任務開始
+      </div>
+      <h1 class="title-md">前往 <span data-dest-name></span></h1>
+      <p class="body-text">導航到 <span data-dest-name></span>，抵達後出示此畫面，由工作人員協助兌換禮物。</p>
+    </div>
+
+    <div class="map-card">
+      <div class="map-frame">
+        <iframe id="map-frame" title="目的地位置地圖" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+      <div class="map-caption">
+        <div class="place-name" data-dest-name></div>
+        <div class="place-detail">點「開始導航」會開啟 Google 地圖</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary" id="nav-link" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"></path></svg>
+        開始導航
+      </a>
+      <button type="button" class="btn btn-secondary" id="redeem-btn">兌獎</button>
+      <p class="hint">兌獎請到現場後交由工作人員操作，自行點擊視同已兌換。</p>
+    </div>
+  </section>
+
+  <!-- 4 已兌換 -->
+  <section class="view" data-view="redeemed" hidden>
+    <div class="view-body view-center">
+      <div class="badge badge-big">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"></path></svg>
+      </div>
+      <div class="stack-10">
+        <h1 class="title-hero">任務成功</h1>
+        <p class="lead-center">已在 <span data-dest-name></span> 完成兌換</p>
+      </div>
+      <div class="receipt">
+        <div class="receipt-row">
+          <span class="receipt-label">兌換時間</span>
+          <strong id="redeemed-at"></strong>
+        </div>
+        <hr>
+        <div class="receipt-clock-label">現在時間</div>
+        <div class="receipt-clock" id="clock" aria-hidden="true"></div>
+      </div>
+    </div>
+    <p class="hint">此畫面的時間會持續跳動，用來確認不是截圖。</p>
+  </section>
+
+</main>
+
+<!-- 3 兌獎確認 -->
+<div class="sheet" id="confirm-sheet" hidden>
+  <div class="sheet-backdrop" data-close-sheet></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc">
+    <div class="badge badge-sheet">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2"></rect><path d="M12 9v12M3 13h18M12 9c-2.500 0-4.500-1-4.500-3s2.500-2.500 4.500 3c2-5.500 4.500-5 4.500-3s-2 3-4.500 3z"></path></svg>
+    </div>
+    <div class="stack-10">
+      <h2 class="title-sheet" id="confirm-title">確認兌獎？</h2>
+      <p class="lead" id="confirm-desc">請由工作人員按下確認。確認後無法復原。</p>
+    </div>
+    <div class="stack-12">
+      <button type="button" class="btn btn-primary" id="confirm-btn">工作人員確認兌獎</button>
+      <button type="button" class="btn btn-secondary" id="cancel-btn" data-close-sheet>取消</button>
+    </div>
+  </div>
+</div>
+
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

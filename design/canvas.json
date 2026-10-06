@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-10-07T09:00:00Z"},
+  "title": "導航任務 畫面與流程",
+  "launch": {"view": "canvas"},
+  "attachments": {},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "1 確認位置"},
+    "OutOfRange.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "1b 不在範圍"},
+    "Task.dc.html": {"x": 940, "y": 0, "w": 390, "h": 844, "title": "2 任務進行中"},
+    "Confirm.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 844, "title": "3 兌獎確認"},
+    "Redeemed.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 844, "title": "4 已兌換", "is_interactive": true}
+  },
+  "order": ["Main.dc.html", "OutOfRange.dc.html", "Task.dc.html", "Confirm.dc.html", "Redeemed.dc.html"],
+  "notes": {
+    "heading": {"x": 0, "y": -300, "text": "導航任務：第一階段畫面流程", "kind": "title1", "maxW": 2270, "w": 240},
+    "n1": {"x": 0, "y": 904, "w": 390, "fill": "gray", "text": "在出發地掃 QR code 後開啟，不需要登入。\n按下按鈕才要求定位權限。座標送到後端判斷：在範圍內就建立任務、記錄 GPS、在這支手機存入識別碼，進入「任務進行中」；超出範圍進入「不在範圍」。\n這支手機已有任務時會直接跳到「任務進行中」。"},
+    "n3": {"x": 470, "y": 904, "w": 390, "fill": "orange", "text": "分支畫面。收到轉傳連結、不在出發地的人會停在這裡，無法建立任務。\n拒絕定位或定位逾時也用同一個版型，文字改為開啟權限的步驟。"},
+    "n4": {"x": 940, "y": 904, "w": 390, "fill": "gray", "text": "主畫面：任務內容、店家地圖、導航、兌獎。\n「開始導航」會記錄點擊並開啟 Google Maps。\n到店後掃店內同一張 QR code 回到這個畫面，交給店員按「兌獎」。"},
+    "n5": {"x": 1410, "y": 904, "w": 390, "fill": "gray", "text": "按「兌獎」後跳出的確認視窗，避免客人誤觸。\n確認後由後端寫入核銷時間，只會成功一次。"},
+    "n6": {"x": 1880, "y": 904, "w": 390, "fill": "green", "text": "核銷完成。之後這支手機每次開啟都是這個畫面，無法再次兌獎。\n時鐘每秒跳動，讓店員分辨真實頁面與截圖。"}
+  },
+  "designSystems": []
+}
