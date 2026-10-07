@@ -101,10 +101,6 @@ body.is-success .progress span { background: #FFFFFF; }
 }
 .steps-item.is-current .steps-dot { background: var(--primary); color: #FFFFFF; }
 
-.note { display: flex; gap: 12px; padding: 16px; border-radius: 14px; color: var(--text-2); }
-.note svg { flex-shrink: 0; margin-top: 2px; }
-.note p { font-size: 14px; line-height: 1.65; }
-
 .place-card { display: flex; flex-direction: column; gap: 6px; }
 .place-label { font-size: 13px; color: var(--text-2); }
 .place-name { font-size: 17px; font-weight: 700; }
@@ -141,7 +137,6 @@ body.is-success .progress span { background: #FFFFFF; }
 
 /* 已兌換：頂部成功列、中央 IG 卡片、底部時間確認框 */
 .success-row { display: flex; align-items: center; gap: 14px; }
-.lead-sm { font-size: 14px; line-height: 1.5; }
 
 .ig-card {
   flex-grow: 1;
