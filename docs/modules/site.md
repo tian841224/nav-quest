@@ -25,6 +25,7 @@ covers:
 
 ## Invariants and gotchas
 
+- 「已兌換」頁的 Instagram 帳號與連結直接寫在 `index.html`，不是建置設定；換店家時要手動改這個連結與帳號文字。連結以新分頁開啟，避免取代需要持續顯示時鐘的兌換頁。
 - 每次載入頁面都以不同網址取得 `config.js`，避免瀏覽器沿用舊的活動半徑；`app.js` 必須在設定檔後執行。
 
 ## Unverified

@@ -63,6 +63,7 @@ body.is-success .progress span { background: #FFFFFF; }
 .view-center > * { max-width: 100%; }
 
 .stack-8 { display: flex; flex-direction: column; gap: 8px; }
+.stack-6 { display: flex; flex-direction: column; gap: 6px; }
 .stack-10 { display: flex; flex-direction: column; gap: 10px; }
 .stack-12 { display: flex; flex-direction: column; gap: 12px; }
 
@@ -71,9 +72,8 @@ body.is-success .progress span { background: #FFFFFF; }
 .title-lg { font-size: 30px; line-height: 1.3; font-weight: 900; }
 .title-md { font-size: 28px; line-height: 1.3; font-weight: 900; }
 .title-sheet { font-size: 26px; line-height: 1.3; font-weight: 900; }
-.title-hero { font-size: 40px; line-height: 1.2; font-weight: 900; }
+.title-sm { font-size: 24px; line-height: 1.2; font-weight: 900; }
 .lead { font-size: 16px; line-height: 1.7; color: var(--text-2); }
-.lead-center { font-size: 17px; line-height: 1.6; }
 .body-text { font-size: 15px; line-height: 1.65; color: var(--text-2); }
 .hint { font-size: 13px; line-height: 1.6; color: var(--text-2); text-align: center; }
 .hint-left { font-size: 14px; line-height: 1.65; color: var(--text-2); }
@@ -86,7 +86,7 @@ body.is-success .progress span { background: #FFFFFF; }
 .badge-primary { background: var(--primary); color: #FFFFFF; }
 .badge-warn { background: var(--warn-soft); color: var(--warn); }
 .badge-sheet { width: 56px; height: 56px; border-radius: 16px; background: var(--primary-soft); color: var(--primary); }
-.badge-big { width: 120px; height: 120px; border-radius: 60px; background: #FFFFFF; color: var(--primary); }
+.badge-small { width: 48px; height: 48px; flex-shrink: 0; border-radius: 24px; background: #FFFFFF; color: var(--primary); }
 
 /* 卡片 */
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; color: var(--text); }
@@ -140,16 +140,32 @@ body.is-success .progress span { background: #FFFFFF; }
 .map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
 .map-caption { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
 
-/* 已兌換 */
-.receipt {
-  align-self: stretch; padding: 20px; border-radius: 18px;
-  background: #FFFFFF; color: #14201B; text-align: left;
+/* 已兌換：頂部成功列、中央 IG 卡片、底部時間確認框 */
+.success-row { display: flex; align-items: center; gap: 14px; }
+.lead-sm { font-size: 14px; line-height: 1.5; }
+
+.ig-card {
+  padding: 32px 24px 24px; border-radius: 24px;
+  background: #FFFFFF; color: #14201B; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
 }
-.receipt-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
-.receipt-label { color: #4B5A53; }
-.receipt hr { border: 0; height: 1px; background: var(--line); margin: 14px 0; }
-.receipt-clock-label { font-size: 13px; color: #4B5A53; margin-bottom: 4px; }
-.receipt-clock { font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.ig-avatar {
+  width: 112px; height: 112px; border-radius: 56px;
+  background: var(--primary-soft); color: var(--primary); border: 4px solid var(--primary);
+  display: flex; align-items: center; justify-content: center;
+}
+.ig-title { font-size: 24px; line-height: 1.3; font-weight: 900; }
+.ig-handle { font-size: 16px; color: #4B5A53; }
+.ig-desc { font-size: 14px; line-height: 1.6; color: #4B5A53; }
+.ig-card .btn { align-self: stretch; }
+
+.receipt {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .45);
+  font-size: 13px;
+}
+.receipt-end { text-align: right; }
+.receipt-clock { font-size: 16px; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 
 /* 兌獎確認視窗 */
 .sheet { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; justify-content: flex-end; }
