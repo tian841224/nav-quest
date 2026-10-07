@@ -45,6 +45,34 @@ ol { padding: 0; list-style: none; }
   gap: 24px;
 }
 
+.screen:has([data-view="start"]:not([hidden])) {
+  position: relative;
+  background: #9EBB78 url('./assets/start-background.png') center / 100% 100% no-repeat;
+}
+.start-instructions {
+  position: absolute;
+  top: 51%; left: 16px; right: 16px;
+  color: #39452F;
+  text-align: center;
+  font-size: clamp(11px, 3.3vw, 16px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.start-instructions p:first-child { font-size: 18px; margin-bottom: 6px; }
+[data-view="start"] { justify-content: flex-end; }
+#locate-btn {
+  background: url('./assets/button-background.png') center / 100% 100% no-repeat;
+  color: #14201B;
+  border: 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* 頂端列與進度 */
 .topbar { display: flex; flex-direction: column; gap: 14px; }
 .topbar-row { display: flex; justify-content: space-between; align-items: center; }

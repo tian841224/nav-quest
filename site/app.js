@@ -144,9 +144,6 @@
     });
     $('#locate-btn').textContent = busy ? '定位中…' : '確認我的位置';
     $('#retry-btn').textContent = busy ? '定位中…' : '重新確認位置';
-    $('#locate-hint').textContent = busy
-      ? '正在取得你的位置，請稍候。'
-      : '按下後請在瀏覽器詢問時選擇「允許」。';
   }
 
   var TIP_OPEN_BROWSER = '從其他 App 內開啟連結時可能無法定位，請複製網址，改用 Safari 或 Chrome 開啟。';
