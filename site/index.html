@@ -145,7 +145,13 @@
   </div>
 </div>
 
-<script src="./config.js"></script>
-<script src="./app.js"></script>
+<script>
+  ['./config.js?v=' + Date.now(), './app.js'].forEach(function (src) {
+    var script = document.createElement('script');
+    script.async = false;
+    script.src = src;
+    document.body.appendChild(script);
+  });
+</script>
 </body>
 </html>
