@@ -45,9 +45,15 @@ ol { padding: 0; list-style: none; }
   gap: 24px;
 }
 
+/* 首頁框鎖定背景圖比例 390:844；寬高取較小者，過寬的視窗兩側以底色留白 */
+body:has([data-view="start"]:not([hidden])) { background: #9EBB78; }
 .screen:has([data-view="start"]:not([hidden])) {
   position: relative;
-  background: #9EBB78 url('./assets/start-background.png') center / 100% 100% no-repeat;
+  width: min(100vw, calc(100dvh * 390 / 844));
+  max-width: none;
+  min-height: 0;
+  aspect-ratio: 390 / 844;
+  background: url('./assets/start-background.png') center / 100% 100% no-repeat;
 }
 .start-instructions {
   position: absolute;
@@ -59,8 +65,14 @@ ol { padding: 0; list-style: none; }
   line-height: 1.5;
 }
 .start-instructions p:first-child { font-size: 18px; margin-bottom: 6px; }
-[data-view="start"] { justify-content: flex-end; }
+[data-view="start"] .actions {
+  position: absolute;
+  top: 79.3%; left: 24px; right: 24px;
+  transform: translateY(-50%);
+}
 #locate-btn {
+  aspect-ratio: 346 / 57;
+  min-height: 0;
   background: url('./assets/button-background.png') center / 100% 100% no-repeat;
   color: #14201B;
   border: 0;
