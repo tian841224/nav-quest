@@ -25,7 +25,8 @@ covers:
 
 ## Invariants and gotchas
 
-- 「已兌換」頁的 Instagram 帳號與連結直接寫在 `index.html`，不是建置設定；換店家時要手動改這個連結與帳號文字。連結以新分頁開啟，避免取代需要持續顯示時鐘的兌換頁。
+- 「已兌換」頁以 Instagram 官方個人頁內嵌（`https://www.instagram.com/<帳號>/embed`）顯示大頭照與貼文，帳號直接寫在 `index.html`，不是建置設定；換店家時要手動改內嵌網址與按鈕連結。內嵌載入失敗時仍有「前往 Instagram 追蹤」按鈕；按鈕以新分頁開啟，避免取代需要持續顯示時鐘的兌換頁。內嵌是 Instagram 的非正式網址格式，Meta 可能調整。
+- `scripts/build.mjs` 會在 `dist/index.html` 的 `styles.css` 與 `app.js` 網址加上建置時間，避免部署後新 HTML 搭配快取的舊樣式。
 - 每次載入頁面都以不同網址取得 `config.js`，避免瀏覽器沿用舊的活動半徑；`app.js` 必須在設定檔後執行。
 
 ## Unverified

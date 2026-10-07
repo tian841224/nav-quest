@@ -97,6 +97,16 @@ writeFileSync(
   `// 由 scripts/build.mjs 產生，請勿手動修改。\nwindow.NAV_CONFIG = ${JSON.stringify(config, null, 2)};\n`,
 );
 
+// 樣式與腳本的網址帶上建置時間，部署後瀏覽器不會把新 HTML 配上快取的舊 CSS／JS。
+const stamp = Date.now();
+const indexPath = resolve(dist, 'index.html');
+writeFileSync(
+  indexPath,
+  readFileSync(indexPath, 'utf8')
+    .replace('./styles.css', `./styles.css?v=${stamp}`)
+    .replace("'./app.js'", `'./app.js?v=${stamp}'`),
+);
+
 console.log(`目的地：${destination.name}（${destination.lat}, ${destination.lng}）`);
 console.log(`範圍：以目的地為圓心 ${radiusKm} 公里`);
 console.log('已輸出到 dist/');
