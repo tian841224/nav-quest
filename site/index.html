@@ -7,135 +7,109 @@
 <title>導航任務</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700;900&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<main class="screen" id="app">
+<main class="screen" id="app" data-screen="start">
+  <div class="stage">
 
-  <header class="topbar">
-    <div class="topbar-row">
-      <div class="brand">導航任務</div>
-      <div class="step-label" id="step-label"></div>
-    </div>
-    <div class="progress" id="progress" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-  </header>
-
-  <!-- 1 確認位置 -->
-  <section class="view" data-view="start" hidden>
-    <h1 class="sr-only">恭喜你！你發現園區的神祕寶藏線索，跟著指示找出寶藏吧！</h1>
-    <div class="start-instructions">
-      <p>完成三個步驟</p>
-      <p>找到藏寶地點並出示畫面即可獲得神秘寶藏</p>
-    </div>
-    <div class="actions">
-      <button type="button" class="btn btn-primary" id="locate-btn">確認我的位置</button>
-    </div>
-  </section>
-
-  <!-- 1b 不在範圍／定位失敗 -->
-  <section class="view" data-view="blocked" hidden>
-    <div class="view-body">
-      <div class="badge badge-warn">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><path d="M9.500 7.500l5 5M14.500 7.500l-5 5"></path></svg>
+    <header class="topbar">
+      <div class="brand">尋找森林中的寶藏</div>
+      <div class="step-pill">
+        <span class="step-label" id="step-label"></span>
+        <div class="progress" id="progress" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
       </div>
-      <div class="stack-12">
-        <h1 class="title-lg" id="blocked-title"></h1>
+    </header>
+
+    <!-- 1 確認位置 -->
+    <section class="view" data-view="start" hidden>
+      <h1 class="start-title">
+        <span>恭喜你！</span>
+        <span>你發現園區的神祕寶藏線索</span>
+        <span>跟著指示找出寶藏吧！</span>
+      </h1>
+      <div class="start-instructions">
+        <p>完成三個步驟</p>
+        <p>找到藏寶地點並出示畫面即可獲得神秘寶藏。</p>
+      </div>
+      <div class="actions actions-start">
+        <button type="button" class="btn btn-light" id="locate-btn">確認我的位置</button>
+      </div>
+    </section>
+
+    <!-- 1b 不在範圍／定位失敗：定位圖示已在背景圖裡 -->
+    <section class="view view-blocked" data-view="blocked" hidden>
+      <div class="blocked-text">
+        <h1 class="title" id="blocked-title"></h1>
         <p class="lead" id="blocked-message"></p>
       </div>
-      <div class="card place-card">
+      <div class="place-card">
         <div class="place-label">活動地點</div>
         <div class="place-name" data-dest-name></div>
         <div class="place-detail" id="blocked-detail"></div>
       </div>
-      <p class="hint-left" id="blocked-tip"></p>
-    </div>
-    <div class="actions">
-      <button type="button" class="btn btn-secondary" id="retry-btn">重新確認位置</button>
-    </div>
-  </section>
-
-  <!-- 2 任務進行中 -->
-  <section class="view view-task" data-view="task" hidden>
-    <div class="stack-8">
-      <div class="status-ok">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"></path></svg>
-        已確認位置，任務開始
+      <p class="tip" id="blocked-tip"></p>
+      <div class="actions actions-bottom">
+        <button type="button" class="btn btn-light" id="retry-btn">重新確認位置</button>
       </div>
-      <h1 class="title-md">前往 <span data-dest-name></span></h1>
-      <p class="body-text">抵達後出示此畫面，由工作人員協助兌換禮物。</p>
-    </div>
+    </section>
 
-    <div class="map-card">
-      <div class="map-frame">
-        <iframe id="map-frame" title="目的地位置地圖" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <!-- 2 任務進行中 -->
+    <section class="view" data-view="task" hidden>
+      <h1 class="title title-top">出發尋找寶藏吧！</h1>
+      <p class="lead lead-top">抵達後出示此畫面，由工作人員協助兌換。</p>
+
+      <div class="map-card">
+        <div class="map-frame">
+          <iframe id="map-frame" title="目的地位置地圖" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
       </div>
-      <div class="map-caption">
-        <div class="place-name" data-dest-name></div>
+
+      <div class="actions actions-task">
+        <a class="btn btn-light" id="nav-link" target="_blank" rel="noopener">出發尋寶</a>
+        <button type="button" class="btn btn-dark btn-spaced" id="redeem-btn">兌獎</button>
       </div>
-    </div>
+    </section>
 
-    <div class="actions">
-      <a class="btn btn-primary" id="nav-link" target="_blank" rel="noopener">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"></path></svg>
-        開始導航
-      </a>
-      <button type="button" class="btn btn-secondary" id="redeem-btn">兌獎</button>
-      <p class="hint">兌獎請到現場後交由工作人員操作，自行點擊視同已兌換。</p>
-    </div>
-  </section>
+    <!-- 4 已兌換 -->
+    <section class="view" data-view="redeemed" hidden>
+      <h1 class="title title-top">獲得寶藏！</h1>
 
-  <!-- 4 已兌換 -->
-  <section class="view" data-view="redeemed" hidden>
-    <div class="success-row">
-      <div class="badge badge-small">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"></path></svg>
-      </div>
-      <h1 class="title-sm">任務成功</h1>
-    </div>
-
-    <div class="view-body">
       <div class="ig-card">
         <iframe class="ig-embed" src="https://www.instagram.com/hechizos1368_6/embed" title="Instagram 個人頁 @hechizos1368_6" loading="lazy"></iframe>
-        <a class="btn btn-primary" href="https://www.instagram.com/hechizos1368_6/" target="_blank" rel="noopener">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.500" cy="6.500" r="0.800" fill="currentColor"></circle></svg>
+        <a class="btn btn-dark" href="https://www.instagram.com/hechizos1368_6/" target="_blank" rel="noopener">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.500" cy="6.500" r="0.800" fill="currentColor"></circle></svg>
           前往 Instagram 追蹤
         </a>
       </div>
-    </div>
 
-    <div class="stack-10">
       <div class="receipt">
-        <div>
-          <div class="receipt-label">兌換時間</div>
-          <strong id="redeemed-at"></strong>
+        <div class="receipt-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
         </div>
-        <div class="receipt-end">
-          <div class="receipt-label">現在時間</div>
-          <strong class="receipt-clock" id="clock" aria-hidden="true"></strong>
+        <div class="receipt-info">
+          <span class="receipt-label">兌獎時間</span>
+          <span class="receipt-date" id="redeemed-date"></span>
         </div>
+        <strong class="receipt-time" id="redeemed-time"></strong>
       </div>
-    </div>
-  </section>
+    </section>
 
+  </div>
 </main>
 
 <!-- 3 兌獎確認 -->
 <div class="sheet" id="confirm-sheet" hidden>
   <div class="sheet-backdrop" data-close-sheet></div>
   <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc">
-    <div class="badge badge-sheet">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2"></rect><path d="M12 9v12M3 13h18M12 9c-2.500 0-4.500-1-4.500-3s2.500-2.500 4.500 3c2-5.500 4.500-5 4.500-3s-2 3-4.500 3z"></path></svg>
-    </div>
-    <div class="stack-10">
-      <h2 class="title-sheet" id="confirm-title">確認兌獎？</h2>
-      <p class="lead" id="confirm-desc">請由工作人員按下確認。確認後無法復原。</p>
-    </div>
-    <div class="stack-12">
-      <button type="button" class="btn btn-primary" id="confirm-btn">工作人員確認兌獎</button>
-      <button type="button" class="btn btn-secondary" id="cancel-btn" data-close-sheet>取消</button>
+    <h2 class="title-sheet" id="confirm-title">確認兌獎？</h2>
+    <p class="sheet-desc" id="confirm-desc">請由工作人員確認並兌換。確認後無法復原。</p>
+    <div class="sheet-actions">
+      <button type="button" class="btn btn-dark" id="confirm-btn">工作人員確認兌換</button>
+      <button type="button" class="btn btn-light" id="cancel-btn" data-close-sheet>取消</button>
     </div>
   </div>
 </div>

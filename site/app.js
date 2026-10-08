@@ -59,10 +59,11 @@
     return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
   }
 
-  function formatDateTime(iso) {
+  function showRedeemedAt(iso) {
     var d = new Date(iso);
-    if (isNaN(d.getTime())) return '—';
-    return d.getFullYear() + '/' + pad(d.getMonth() + 1) + '/' + pad(d.getDate()) + ' ' + formatClock(d);
+    var valid = !isNaN(d.getTime());
+    $('#redeemed-date').textContent = valid ? d.getFullYear() + '/' + pad(d.getMonth() + 1) + '/' + pad(d.getDate()) : '—';
+    $('#redeemed-time').textContent = valid ? formatClock(d) : '—';
   }
 
   function formatDistance(meters) {
@@ -88,13 +89,11 @@
   // ---- 畫面切換 ---------------------------------------------------------
 
   var STEP_LABELS = {
-    start: { text: '步驟 1／3', done: 0 },
-    blocked: { text: '步驟 1／3', done: 0, warn: true },
-    task: { text: '步驟 2／3', done: 2 },
-    redeemed: { text: '步驟 3／3', done: 3 }
+    start: { text: '步驟 1 / 3', done: 1 },
+    blocked: { text: '步驟 1 / 3', done: 1 },
+    task: { text: '步驟 2 / 3', done: 2 },
+    redeemed: { text: '步驟 3 / 3', done: 3 }
   };
-
-  var clockTimer = null;
 
   function show(name) {
     $$('.view').forEach(function (el) { el.hidden = el.getAttribute('data-view') !== name; });
@@ -102,19 +101,10 @@
     var step = STEP_LABELS[name];
     $('#step-label').textContent = step.text;
     $$('#progress span').forEach(function (bar, i) {
-      bar.className = '';
-      if (step.warn && i === 0) bar.className = 'is-warn';
-      else if (i < step.done || (name === 'start' && i === 0)) bar.className = 'is-done';
+      bar.className = i < step.done ? 'is-done' : '';
     });
 
-    document.body.classList.toggle('is-success', name === 'redeemed');
-
-    if (clockTimer) { clearInterval(clockTimer); clockTimer = null; }
-    if (name === 'redeemed') {
-      var tick = function () { $('#clock').textContent = formatClock(new Date()); };
-      tick();
-      clockTimer = setInterval(tick, 1000);
-    }
+    $('#app').setAttribute('data-screen', name);
 
     var heading = $('.view:not([hidden]) h1');
     if (heading) {
@@ -127,7 +117,7 @@
   function showStartOrTask() {
     var state = loadState();
     if (state.redeemedAt) {
-      $('#redeemed-at').textContent = formatDateTime(state.redeemedAt);
+      showRedeemedAt(state.redeemedAt);
       show('redeemed');
     } else if (state.startedAt) {
       show('task');
@@ -160,9 +150,9 @@
       },
       denied: {
         title: '需要開啟定位權限',
-        message: '請允許瀏覽器取得你的位置，才能確認你在活動範圍內。',
+        message: '我們需要確認您在園區內',
         detail: rangeText,
-        tip: 'iPhone：到「設定 → 隱私權與安全性 → 定位服務」，開啟並允許瀏覽器使用。Android：到「設定 → 位置資訊」開啟，並確認瀏覽器的網站設定沒有封鎖位置。完成後回來重試。'
+        tip: 'iPhone：到「設定→隱私權與安全性→定位服務」，開啟並允許瀏覽器使用。\n\nAndroid：到「設定→位置資訊」開啟，並確認瀏覽器的網站設定沒有封鎖位置。完成後回來重試。'
       },
       unavailable: {
         title: '暫時無法取得位置',
@@ -253,7 +243,7 @@
     state.redeemedAt = new Date().toISOString();
     saveState(state);
     sheet.hidden = true;
-    $('#redeemed-at').textContent = formatDateTime(state.redeemedAt);
+    showRedeemedAt(state.redeemedAt);
     show('redeemed');
   }
 
