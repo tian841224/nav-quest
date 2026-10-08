@@ -35,6 +35,9 @@ body {
 
 h1, h2, p { margin: 0; }
 
+/* 切換畫面時 app.js 會把焦點交給標題給輔助科技朗讀；標題不可操作，不需要焦點外框（iOS Safari 會畫藍框） */
+[tabindex="-1"]:focus { outline: none; }
+
 .screen {
   position: relative;
   width: min(100vw, calc(390 * var(--u)));
@@ -80,7 +83,7 @@ h1, h2, p { margin: 0; }
 .title { font-size: calc(26 * var(--u)); line-height: 1.3; }
 /* 步驟二、三的內容整塊上下置中：--dy 是相對設計稿原位置的位移（設計稿單位），讓整塊的中心落在 y=398 */
 [data-view="task"] { --dy: -34; }
-[data-view="redeemed"] { --dy: -51; }
+[data-view="redeemed"] { --dy: -21; } /* 卡片頂端要低於背景圖星星的底端（約 y=200），避免遮住 */
 .title-top { top: calc((178 + var(--dy, 0)) * var(--u)); left: calc(36 * var(--u)); right: calc(36 * var(--u)); }
 .lead { font-size: calc(13 * var(--u)); line-height: 1.8; }
 .lead-top { top: calc((230 + var(--dy, 0)) * var(--u)); left: calc(36 * var(--u)); right: calc(36 * var(--u)); }
