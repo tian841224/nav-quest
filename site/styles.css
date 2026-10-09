@@ -210,3 +210,12 @@ h1, h2, p { margin: 0; }
 .sheet-actions { width: 100%; margin-top: calc(16 * var(--u)); display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
 .sheet-actions .btn { height: calc(56 * var(--u)); }
 .sheet-actions .btn-light { letter-spacing: .3em; }
+
+/* 比 9:16 寬的手機：背景圖改以 cover 按比例鋪滿整個寬度（--s 是 cover 的縮放），只裁掉底部裝飾區。
+   版面仍依 --u 排列以保住按鈕；標題與說明貼著背景圖的色帶和圖案，改用 --s 定位。 */
+@media (max-width: 520px) and (max-aspect-ratio: 3/5) {
+  :root { --s: max(100vw / 390, 100dvh / 844); }
+  .screen { width: 100vw; background-size: cover; }
+  .start-title { top: calc(242 * var(--s)); height: calc(163 * var(--s)); }
+  .start-instructions { top: calc(428 * var(--s)); }
+}
