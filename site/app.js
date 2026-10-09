@@ -95,7 +95,26 @@
     redeemed: { text: '步驟 3 / 3', done: 3 }
   };
 
+  // 淡出舊畫面、換成新畫面、再淡入；第一次顯示與「減少動態」偏好直接切換。時間要與 styles.css 的 --fade 一致。
+  var FADE_MS = 220;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var shownOnce = false;
+
   function show(name) {
+    if (!shownOnce || reduceMotion) {
+      shownOnce = true;
+      showNow(name);
+      return;
+    }
+    var app = $('#app');
+    app.classList.add('is-fading');
+    setTimeout(function () {
+      showNow(name);
+      app.classList.remove('is-fading');
+    }, FADE_MS);
+  }
+
+  function showNow(name) {
     $$('.view').forEach(function (el) { el.hidden = el.getAttribute('data-view') !== name; });
 
     var step = STEP_LABELS[name];
@@ -233,8 +252,20 @@
     $('#cancel-btn').focus();
   }
 
+  function hideSheet() {
+    if (reduceMotion) {
+      sheet.hidden = true;
+      return;
+    }
+    sheet.classList.add('is-closing');
+    setTimeout(function () {
+      sheet.hidden = true;
+      sheet.classList.remove('is-closing');
+    }, FADE_MS);
+  }
+
   function closeSheet() {
-    sheet.hidden = true;
+    hideSheet();
     $('#redeem-btn').focus({ preventScroll: true });
   }
 
@@ -242,7 +273,7 @@
     var state = loadState();
     state.redeemedAt = new Date().toISOString();
     saveState(state);
-    sheet.hidden = true;
+    hideSheet();
     showRedeemedAt(state.redeemedAt);
     show('redeemed');
   }

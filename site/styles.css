@@ -219,3 +219,14 @@ h1, h2, p { margin: 0; }
   .start-title { top: calc(242 * var(--s)); height: calc(163 * var(--s)); }
   .start-instructions { top: calc(428 * var(--s)); }
 }
+
+/* 畫面切換與確認視窗的淡入淡出（時間與 app.js 的 FADE_MS 一致）。 */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.screen { animation: fade-in .3s ease; transition: opacity .22s ease; }
+.screen.is-fading { opacity: 0; }
+.sheet:not([hidden]) { animation: fade-in .22s ease; }
+.sheet.is-closing { opacity: 0; transition: opacity .22s ease; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .screen, .sheet:not([hidden]) { animation: none; }
+  .screen, .sheet.is-closing { transition: none; }
+}
