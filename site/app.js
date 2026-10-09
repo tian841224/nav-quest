@@ -89,9 +89,9 @@
   // ---- 畫面切換 ---------------------------------------------------------
 
   var STEP_LABELS = {
-    start: { text: '步驟 1 / 3', done: 1 },
-    blocked: { text: '步驟 1 / 3', done: 1 },
-    task: { text: '步驟 2 / 3', done: 2 },
+    start: { text: '步驟 1 / 3', done: 1, active: 0 },
+    blocked: { text: '步驟 1 / 3', done: 1, active: 0 },
+    task: { text: '步驟 2 / 3', done: 2, active: 1 },
     redeemed: { text: '步驟 3 / 3', done: 3 }
   };
 
@@ -101,7 +101,7 @@
     var step = STEP_LABELS[name];
     $('#step-label').textContent = step.text;
     $$('#progress span').forEach(function (bar, i) {
-      bar.className = i < step.done ? 'is-done' : '';
+      bar.className = i === step.active ? 'is-active' : i < step.done ? 'is-done' : '';
     });
 
     $('#app').setAttribute('data-screen', name);

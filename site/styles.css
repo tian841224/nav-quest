@@ -78,6 +78,22 @@ h1, h2, p { margin: 0; }
 .progress { display: flex; gap: calc(4 * var(--u)); }
 .progress span { width: calc(18 * var(--u)); height: calc(6 * var(--u)); border-radius: calc(3 * var(--u)); background: var(--track); }
 .progress span.is-done { background: var(--green); }
+/* 目前步驟：底色維持半深綠，深綠由左到右填滿並重複，最後一格停一下再重來 */
+.progress span.is-active { position: relative; overflow: hidden; background: rgba(47, 93, 52, .55); }
+.progress span.is-active::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--green);
+  transform-origin: left center;
+  animation: progress-fill 1.8s ease-in-out infinite;
+}
+@keyframes progress-fill {
+  0% { transform: scaleX(0); }
+  75%, 100% { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress span.is-active::after { animation: none; }
+}
 
 /* 文字 */
 .title { font-size: calc(26 * var(--u)); line-height: 1.3; }
