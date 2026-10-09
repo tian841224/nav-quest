@@ -158,14 +158,35 @@
   var TIP_OPEN_BROWSER = '從其他 App 內開啟連結時可能無法定位，請複製網址，改用 Safari 或 Chrome 開啟。';
   var TIP_SIGNAL = '請確認手機的定位服務已開啟，並移到收訊較好的地方後重試。';
 
+  // 文字可以是字串，或字串與 { text, cls } 組成的陣列（cls 是要特別標示的樣式），一律以 textContent 寫入。
+  function setRich(el, parts) {
+    el.textContent = '';
+    [].concat(parts).forEach(function (part) {
+      if (typeof part === 'string') {
+        el.appendChild(document.createTextNode(part));
+        return;
+      }
+      var span = document.createElement('span');
+      span.className = part.cls;
+      span.textContent = part.text;
+      el.appendChild(span);
+    });
+  }
+
   function showBlocked(reason, info) {
     var rangeText = '活動範圍：以 ' + destName + ' 為中心，方圓 ' + formatRadius(config.radiusKm) + ' 公里。';
     var content = {
       far: {
         title: '你目前不在活動範圍內',
-        message: '任務需要在 ' + destName + ' 方圓 ' + formatRadius(config.radiusKm) + ' 公里內才能開始。請到現場附近後再試一次。',
-        detail: info && info.distance != null ? '你目前距離約 ' + formatDistance(info.distance) + '。' : rangeText,
-        tip: '已經在附近了？可能是定位不夠準確。請移到室外或靠近窗邊，稍等幾秒後重試。'
+        message: [
+          '任務需要在 ', { text: destName, cls: 'mark mark-place' },
+          ' 方圓 ', { text: formatRadius(config.radiusKm) + ' 公里', cls: 'mark mark-distance' },
+          ' 內才能開始。\n請到園區附近後再試一次。'
+        ],
+        detail: info && info.distance != null
+          ? ['你目前距離約 ', { text: formatDistance(info.distance), cls: 'place-distance' }]
+          : rangeText,
+        tip: ''
       },
       denied: {
         title: '需要開啟定位權限',
@@ -200,8 +221,8 @@
     }[reason];
 
     $('#blocked-title').textContent = content.title;
-    $('#blocked-message').textContent = content.message;
-    $('#blocked-detail').textContent = content.detail;
+    setRich($('#blocked-message'), content.message);
+    setRich($('#blocked-detail'), content.detail);
     $('#blocked-tip').textContent = content.tip;
     show('blocked');
   }
